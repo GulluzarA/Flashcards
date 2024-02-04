@@ -1,0 +1,73 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<div id="carouselCaptions" class="carousel slide carousel-fade">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="5" aria-label="Slide 6"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/images/pexels-andrea-piacquadio-3765030.jpg" class="carousel-image-home" alt="Landing page happy student with laptop and a drink">
+            <div class="carousel-caption caption-center d-md-block rounded-4">
+                <h5 class="fs-1">Break the study barrier.</h5>
+                <p class="mb-4">Make learning easy, fun and fast with flashcards.</p>
+                @if (!SignInManager.IsSignedIn(User))
+                {
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary fs-5 py-2 px-4 mb-4 shadow">Get Started</a>
+                }
+                else
+                {
+                    <a asp-controller="Subject" asp-action="Index" class="btn btn-primary fs-5 py-2 px-4 mb-4 shadow">Welcome back</a>
+                }
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/pexels-william-fortunato-6140697.jpg" class="carousel-image-home" alt="carousel image share your decks three happy students">
+            <div class="carousel-caption d-md-block rounded-4">
+                <h5 class="fs-1">Share your decks.</h5>
+                <p>Create decks of cards and share them with your friends.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/laptop-3087585_1920.jpg" class="carousel-image-home" alt="carousel image laptop frustrated student that bites a pencil">
+            <div class="carousel-caption d-md-block rounded-4">
+                <h5 class="fs-1">Make learning simple again.</h5>
+                <p>No more frustration and pencil-biting.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/man-7795548_1920.jpg" class="carousel-image-home" alt="carousel image man happy student with laptop">
+            <div class="carousel-caption d-md-block rounded-4">
+                <h5 class="fs-1">Bring the fun back to learning...</h5>
+                <p>.. And be happy like this person.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/pexels-andrea-piacquadio-3761504.jpg" class="carousel-image-home" alt="carousel image happy student that won the lottery or probably something minor but a small step forward is the way to go">
+            <div class="carousel-caption d-md-block rounded-4">
+                <h5 class="fs-1">Get ahead.</h5>
+                <p>Start winning.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/girl-1641763_1920.jpg" class="carousel-image-home" alt="carousel image statue of a little girl play flashcards on a laptop">
+            <div class="carousel-caption d-md-block rounded-4">
+                <h5 class="fs-1">You know you should try it when...</h5>
+                <p>... Even the statues want to play it.</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-black" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-black" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>

@@ -1,0 +1,24 @@
+@model Card
+
+@{
+    Layout = "_LayoutContainerNarrow";
+    ViewData["Title"] = $"Edit Card - {Model.Deck?.Name} - {Model.Deck?.Subject?.Name}";
+}
+
+<h1 class="mb-3">Edit card</h1>
+
+<form method="post" class="form">
+    <input type="hidden" asp-for="CardId" value="@Model.CardId"/>
+    <div class="mb-3">
+        <label asp-for="Front" autofocus class="form-label"></label>
+        <input asp-for="Front" autocomplete="off" class="form-control"/>
+        <span asp-validation-for="Front" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Back" class="form-label"></label>
+        <input asp-for="Back" autocomplete="off" class="form-control"/>
+        <span asp-validation-for="Back" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-controller="Deck" asp-action="Details" asp-route-deckId="@Model.DeckId" class="btn btn-secondary">Cancel</a>
+</form>

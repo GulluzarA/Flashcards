@@ -1,0 +1,28 @@
+﻿@page
+@{
+    Layout = "_LayoutContainerNormal";
+
+    var statusCode = TempData["ErrorCode"] as int?;
+    var errorMsg = TempData["ErrorMsg"] as string;
+}
+
+@if (statusCode == null)
+{
+    <h1 class="text-danger">An error occured</h1>
+    <p class="text-danger">Please try again</p>
+}
+
+@if (statusCode == 404)
+{
+    <h1 class="text-danger">@statusCode Not Found</h1>
+    <p class="text-danger">The requested URL was not found</p>
+    <p class="text-danger">@errorMsg</p>
+}
+
+@if (statusCode == 400)
+{
+    <h1 class="text-danger">@statusCode Bad Request</h1>
+    <p class="text-danger">Server will not process this request, client error.</p>
+    <p class="text-danger">@errorMsg</p>
+}
+

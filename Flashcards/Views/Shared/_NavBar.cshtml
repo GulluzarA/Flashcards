@@ -1,0 +1,36 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    var activeAction = ViewContext.RouteData.Values["Action"] as string;
+}
+
+<header>
+    <nav class="navbar fixed-top bg-body navbar-expand-lg shadow-sm">
+        <div class="container">
+            @*Logo*@
+            <a class="navbar-brand mb-0 h1" asp-controller="Home" asp-action="Index">Flashcards</a>
+            @* Collapsible button*@
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            @* Navbar links*@
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">Subjects</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Subject" asp-action="Index" aria-current="@(activeAction == "Index" ? "page" : "false")">Your Subjects</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Subject" asp-action="Public" aria-current="@(activeAction == "Public" ? "page" : "false")">Community Subjects</a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+                <partial name="_LoginPartial"/>
+            </div>
+        </div>
+    </nav>
+</header>

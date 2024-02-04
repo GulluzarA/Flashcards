@@ -1,0 +1,158 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+$enable-shadows: true;
+
+// Include any default variable overrides here (though functions won't be available)
+@import "../lib/bootstrap/scss/bootstrap";
+
+// Then add additional custom code here
+// Example:
+//$primary : #00ffbc;
+
+// The following section is heavily inspired by the library DaisyUi but adapted for this project 
+// https://daisyui.com/
+// https://daisyui.com/components/swap/#swap-icons-with-flip-effect
+// https://github.com/saadeghi/daisyui/blob/master/src/components/styled/swap.css
+
+// Section start
+.swap {
+  position: relative;
+  display: inline-grid;
+  place-content: center;
+}
+
+.swap > * {
+  grid-column-start: 1;
+  grid-row-start: 1;
+  transition: transform 300ms ease-out;
+}
+
+.swap input {
+  appearance: none;
+}
+
+.swap-flip {
+  transform-style: preserve-3d;
+  perspective: 32em;
+}
+
+.swap-flip .swap-on,
+{
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  opacity: 1;
+  transition: transform 300ms ease-out;
+}
+
+.swap-flip input:checked ~ .swap-off {
+  transform: rotateY(-180deg);
+  backface-visibility: hidden;
+  @apply opacity-100;
+  transition: transform 300ms ease-out, opacity 150ms 150ms ease-out;
+}
+
+.swap-flip input:checked ~ .swap-off .swap-trigger,
+.swap-flip input:not(:checked) ~ .swap-on .swap-trigger {
+  display: none;
+}
+
+.swap-flip input:checked ~ .swap-on {
+  transform: rotateY(0deg);
+  transition: transform 300ms ease-out;
+}
+
+// Section end
+
+.container-max-sm {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 574px;
+}
+
+.card-sized {
+  width: calc(6rem + 4vw);
+}
+
+.card-shaped {
+  aspect-ratio: 62/88;
+}
+
+.readable {
+  max-width: 65ch;
+}
+
+// Bootstrap 5 Carousel - Extra styling
+
+.carousel-control-prev:hover {
+    background-color: rgb(0, 0, 0, 0.25);
+}
+
+.carousel-control-next:hover {
+    background-color: rgb(0, 0, 0, 0.25);
+}
+
+.carousel-indicators {
+    gap: 2px 4px;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 10px; /* change width */
+    height: 10px; /* change height */
+    border-radius: 100%; // /* add border-radius */
+}
+
+.carousel-caption {
+    background-color: rgb(220, 20, 60, 0.9);
+    padding: 1rem;
+}
+
+.caption-top {
+    top: 0;
+    bottom: auto;
+}
+
+.caption-center {
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: initial;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.carousel-image-home {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+@include media-breakpoint-down(lg) {
+    .carousel-image-home {
+        height: 480px;
+    }
+
+    .caption-center {
+        top: unset;
+        bottom: 0;
+        margin-bottom: 20px;
+        transform: translateY(0%);
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .carousel-image-home {
+        height: 812px;
+    }
+
+    .caption-center {
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: initial;
+        margin-bottom: unset;
+    }
+}

@@ -1,0 +1,28 @@
+@model Subject
+
+@{
+    Layout = "_LayoutContainerNarrow";
+    ViewData["Title"] = "Create new subject";
+}
+
+<h1 class="mb-3">Create new subject</h1>
+
+<form method="post" class="table">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label><span>*</span>
+        <input asp-for="Name" autofocus autocomplete="off" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input asp-for="Description" autocomplete="off" class="form-control"/>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Visibility" class="form-label"></label>
+        <select asp-for="Visibility" asp-items="Html.GetEnumSelectList<SubjectVisibility>()" class="form-select"></select>
+        <span asp-validation-for="Visibility" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Subject" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

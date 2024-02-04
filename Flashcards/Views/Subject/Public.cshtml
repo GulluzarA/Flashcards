@@ -1,0 +1,38 @@
+@model IEnumerable<Subject>
+
+@{
+    Layout = "_LayoutContainerNormal";
+}
+
+<div class="mb-3">
+    @* Title *@
+    <h1>
+        Community Subjects
+    </h1>
+    @* Description *@
+    <p class="readable">
+        On this browse a selection of public subjects. You can use these subjects to find decks that you might be interested in.
+    </p>
+</div>
+
+@* Subjects *@
+@if (!Model.Any())
+{
+    <div class="d-inline-block alert alert-info">
+        <p>There are no community subjects yet</p>
+    </div>
+    return;
+}
+else
+{
+    <div class="d-flex flex-column align-items-start gap-4">
+        @foreach (var subject in Model)
+        {
+            @if (subject.Decks != null && subject.Decks.Any())
+            {
+                <hr class="w-100"/>
+                <partial name="_SubjectComponent" model="subject"/>
+            }
+        }
+    </div>
+}

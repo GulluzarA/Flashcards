@@ -1,0 +1,8 @@
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container pt-5 pb-5">
+    @RenderBody()
+    @await RenderSectionAsync("scripts", required: false)
+</div>

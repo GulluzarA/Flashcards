@@ -1,0 +1,62 @@
+@using Microsoft.AspNetCore.Identity
+@using System.Text.RegularExpressions
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    // Get current active razor page
+    var activePage = ViewContext.RouteData.Values["Page"] as string ?? "";
+
+    // Static page names
+    const string login = "/Account/Login";
+    const string register = "/Account/Register";
+
+    // Dynamic page names
+    var manage = new Regex(@"/Account/Manage/.*");
+}
+
+<script>
+
+// Toggle color mode between dark and light
+function toggleColorMode () {
+    const html = document.querySelector('html')
+    const currentMode = html.getAttribute('data-bs-theme')
+    const targetMode = currentMode === 'dark' ? 'light' : 'dark'
+    html.setAttribute('data-bs-theme', targetMode)
+    localStorage.setItem('color-mode', targetMode)
+}
+
+</script>
+
+<ul class="navbar-nav ms-auto">
+    <li class="nav-item me-2">
+        <button onclick="toggleColorMode()" class="btn btn-outline-secondary icon-link" aria-label="Toggle color mode">
+            <partial name="Icons/_LightIcon"/> / <partial name="Icons/_DarkIcon"/>
+        </button>
+    </li>
+    @* Account / Log out *@
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item me-2">
+            <a id="manage" class="nav-link icon-link @(manage.IsMatch(activePage) ? "active" : null)" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <partial name="Icons/_ProfileIcon"/>
+                Account (@UserManager.GetUserName(User))
+            </a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="btn btn-outline-secondary">Log out</button>
+            </form>
+        </li>
+    }
+    @* Login / Register *@
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link @(activePage == login ? "active" : null)" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(activePage == register ? "active" : null)" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+    }
+</ul>

@@ -1,0 +1,27 @@
+@model Deck
+
+@{
+    Layout = "_LayoutContainerNarrow";
+    ViewData["Title"] = "Create new Deck";
+}
+
+<h1 class="mb-3">Create new Deck</h1>
+
+<form method="post" class="table">
+    <span>
+        @Html.ValidationSummary()
+    </span>
+    <input type="hidden" asp-for="SubjectId" value="@Model.SubjectId"/>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label><span>*</span>
+        <input asp-for="Name" autofocus autocomplete="off" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input asp-for="Description" autocomplete="off" class="form-control"/>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Subject" asp-action="Index" asp-fragment="@Model.SubjectId" class="btn btn-secondary">Cancel</a>
+</form>

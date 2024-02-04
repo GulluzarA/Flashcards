@@ -1,0 +1,83 @@
+@using Microsoft.AspNetCore.Identity
+@model Deck
+
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    Layout = "_LayoutContainerNormal";
+    ViewData["Title"] = $"{Model.Name} - {Model.Subject?.Name}";
+    var ownerName = UserManager.FindByIdAsync(Model.Subject?.OwnerId).Result?.UserName ?? "unknown user";
+    var cardCount = Model.Cards?.Count ?? 0;
+    var visibility = Model.Subject?.Visibility ?? SubjectVisibility.Public;
+    var deckDescription = Model.Description ?? "No description";
+    var returnAction = UserManager.GetUserId(User) != Model.Subject?.OwnerId ? "Public" : "Index";
+}
+
+@* Back link *@
+<a asp-controller="Subject" asp-action="@returnAction" asp-fragment="@Model.SubjectId" class="icon-link link-body-emphasis icon-link-hover mb-4" style="--bs-icon-link-transform: translate3d(-.25em, 0, 0);">
+    <partial name="Icons/_BackIcon"/>
+    Return to @Model.Subject?.Name
+</a>
+
+@* Title row *@
+<div class="d-flex flex-wrap-reverse">
+    <h1 class="card-title d-flex align-items-center">
+        @* Title *@
+        @Model.Name
+    </h1>
+    @* Actions *@
+    <partial name="_DeckActions"/>
+</div>
+
+@* Owner name *@
+<h6 class="card-subtitle mb-1 text-body-secondary">
+    Created by @ownerName
+</h6>
+
+@* Badges *@
+<div class="mb-2">
+    <span class="badge text-bg-secondary">@cardCount @(cardCount == 1 ? "Card" : "Cards")</span>
+    <span class="badge @(visibility == SubjectVisibility.Public ? "text-bg-danger" : "text-bg-info")">@visibility</span>
+</div>
+
+@* Description *@
+<p class="card-text readable">@deckDescription</p>
+
+@* Practice button *@
+@if (Model.Cards is {Count: > 0 })
+{
+    <a asp-controller="Practice" asp-action="Index" asp-route-deckId="@Model.DeckId" class="btn btn-primary mb-5">
+        Start practice session
+    </a>
+}
+
+@* Card container *@
+<div>
+    @* Create card button *@
+    @if (UserManager.GetUserId(User) == Model.Subject?.OwnerId)
+    {
+        <a asp-controller="Card" asp-action="Create" asp-route-deckId="@Model.DeckId" class="btn btn-outline-primary mb-3">
+            Create new card
+        </a>
+    }
+    @* Cards *@
+    <div class="container-fluid d-flex justify-content-center justify-content-md-start  flex-wrap ps-0 mb-3 gap-3">
+        @* If there are no cards, display a message *@
+        @if (Model.Cards == null || cardCount == 0)
+        {
+            <div class="alert alert-info">
+                There are no cards in this deck.
+            </div>
+        }
+        else
+        {
+            @foreach (var card in Model.Cards)
+            {
+                <div class="d-flex flex-column align-items-center gap-1">
+                    <partial name="_CardActions" model="card"/>
+                    <partial name="_CardComponent" model="card"/>
+                </div>
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model Card
+
+@{
+    var checkBoxId = "swapCheckbox" + Model.CardId;
+}
+
+<article class="d-flex flex-column align-items-center">
+    <div class="swap swap-flip mb-2" for="@checkBoxId">
+        <!-- this hidden checkbox controls the state -->
+        <input type="checkbox" id="@checkBoxId" class="invisible"/>
+        <div class="swap-off card border-warning card-shaped" style="height: 16rem">
+            <div class="card-header border-warning text-bg-warning ">Front</div>
+            <div class="card-body bg-warning-subtle rounded-bottom-2 overflow-auto">
+                <p class="card-text">
+                    @Model.Front
+                </p>
+            </div>
+        </div>
+        <div class="swap-on card border-success card-shaped" style="height: 16rem">
+            <div class="card-header border-success text-bg-success">Back</div>
+            <div class="card-body bg-success-subtle rounded-bottom-2 overflow-auto">
+                <p class="card-text">
+                    @Model.Back
+                </p>
+            </div>
+        </div>
+    </div>
+    <button onclick="document.getElementById('@checkBoxId').click();" class="btn btn-link btn-lg icon-link ps-1">
+        <partial name="Icons/_FlipIcon"/>
+        Flip
+    </button>
+</article>

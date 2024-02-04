@@ -1,0 +1,49 @@
+@model Session
+
+@{
+    Layout = "_LayoutContainerNormal";
+    ViewBag.Title = "Your Results";
+    var totalNumber = Model.CardResults.Count;
+    var correctNumber = Model.CardResults.Count(x => x.Correct);
+    var incorrectNumber = Model.CardResults.Count(x => !x.Correct);
+    var percentage = (int)Math.Round((double)correctNumber / totalNumber * 100);
+}
+
+<a asp-controller="Deck" asp-action="Details" asp-route-deckId="@Model.DeckId" class="icon-link link-body-emphasis icon-link-hover mb-4" style="--bs-icon-link-transform: translate3d(-.25em, 0, 0);">
+    <partial name="Icons/_BackIcon"/>
+    Return to @Model.Deck.Name
+</a>
+
+<div class="container-max-sm">
+    <h1>@ViewBag.Title</h1>
+    <h5 class="mb-3">Summary - @Model.Deck.Name </h5>
+    <div class="mb-4">
+        @if (!Model.CardResults.Any())
+        {
+            <div class="alert alert-warning rounded-4">You didn't answer any cards</div>
+        }
+        else
+        {
+            <div class="alert alert-warning rounded-4">
+                <h5 class="alert-heading">Nice!</h5>
+                You answered @Model.CardResults.Count @(totalNumber == 1 ? "card" : "cards") in total
+            </div>
+            <div class="alert alert-success rounded-4">
+                <h5 class="alert-heading">Well done!</h5>
+                You got it right @correctNumber @(correctNumber == 1 ? "time" : "times")
+            </div>
+            <div class="alert alert-danger rounded-4">
+                <h5 class="alert-heading">Oh my!</h5>
+                You made @incorrectNumber @(incorrectNumber == 1 ? "mistake" : "mistakes")
+            </div>
+            <div class="alert alert-info rounded-4">
+                <h5 class="alert-heading">Good effort!</h5>
+                You got @percentage% of the cards correct
+            </div>
+        }
+    </div>
+
+    <a asp-controller="Practice" asp-action="Index" asp-route-deckId="@Model.DeckId" class="btn btn-primary me-3">
+        Improve your score
+    </a>
+</div>

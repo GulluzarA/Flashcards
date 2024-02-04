@@ -1,0 +1,24 @@
+@model Card
+
+@{
+    Layout = "_LayoutContainerNarrow";
+    ViewData["Title"] = "Create new Card";
+}
+
+<h1 class="mb-3">Create new Card</h1>
+
+<form asp-action="Create" class="table">
+    <input type="hidden" asp-for="DeckId" value="@Model.DeckId"/>
+    <div class="mb-3">
+        <label asp-for="Front" class="form-label"></label>
+        <input asp-for="Front" autofocus autocomplete="off" class="form-control"/>
+        <span asp-validation-for="Front" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Back" class="form-label"></label>
+        <input asp-for="Back" autocomplete="off" class="form-control"/>
+        <span asp-validation-for="Back" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Deck" asp-action="Details" asp-route-deckId="@Model.DeckId" class="btn btn-secondary">Cancel</a>
+</form>

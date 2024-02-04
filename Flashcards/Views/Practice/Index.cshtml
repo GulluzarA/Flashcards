@@ -1,0 +1,49 @@
+@model PracticeViewModel
+
+@{
+    Layout = "_LayoutContainerNormal";
+    ViewBag.Title = $"Practice - {Model.Title}";
+}
+
+<div class="d-flex flex-wrap align-items-center justify-content-center column-gap-3 mb-5">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    @* Actions *@
+    <form asp-action="Finish">
+        <input type="hidden" name="sessionId" value="@Model.SessionId"/>
+        <button class="btn btn-outline-danger">Finish practice</button>
+    </form>
+</div>
+
+<div class="container-max-sm">
+    @if (Model.Card == null)
+    {
+        <div class="alert alert-info">
+            You have answered all the cards in this deck correctly
+        </div>
+        return;
+    }
+
+    <div class="d-flex flex-column flex-sm-row align-items-center row-gap-2 column-gap-5">
+        <div class="order-first order-sm-2">
+            <partial name="_CardComponent" model="Model.Card"/>
+        </div>
+        <form asp-action="Post" asp-route-gotCorrect="true" class="order-last">
+            <input type="hidden" name="sessionId" value="@Model.SessionId"/>
+            <input type="hidden" name="cardId" value="@Model.Card.CardId"/>
+            <button class="btn btn-success icon-link text-nowrap" id="correct">
+                <partial name="Icons/_DoneIcon"/>
+                I got it
+            </button>
+        </form>
+        <form asp-action="Post" asp-route-gotCorrect="false" class="order-last order-sm-first">
+            <input type="hidden" name="sessionId" value="@Model.SessionId"/>
+            <input type="hidden" name="cardId" value="@Model.Card.CardId"/>
+            <button class="btn btn-danger icon-link text-nowrap" id="incorrect">
+                <partial name="Icons/_RedoIcon"/>
+                Practice again
+            </button>
+        </form>
+    </div>
+</div>

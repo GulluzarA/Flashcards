@@ -1,0 +1,53 @@
+@inject UserManager<IdentityUser> UserManager
+@using Microsoft.AspNetCore.Identity
+@model Card
+
+
+@if (UserManager.GetUserId(User) == Model.Deck?.Subject?.OwnerId)
+{
+    @* Actions *@
+    <div class="btn-group-sm" role="group" aria-label="Card actions">
+        @* Edit link *@
+        <a asp-controller="Card" asp-action="Update" asp-route-cardId="@Model.CardId" class="btn btn-link icon-link">
+            <partial name="Icons/_EditIcon"/>
+            Edit
+        </a>
+        @* Delete button *@
+        <button type="button" class="btn btn-link icon-link link-underline-danger text-danger" data-bs-toggle="modal" data-bs-target="#@("DeleteCard" + Model.CardId)">
+            <partial name="Icons/_DeleteIcon"/>
+            Delete
+        </button>
+    </div>
+    
+    @* Modal *@
+    <div class="modal fade" id="@("DeleteCard" + Model.CardId)" tabindex="-1" aria-labelledby="@("DeleteCardLabel" + Model.CardId)" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="@("DeleteCardLabel" + Model.CardId)">Delete card</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="mb-3 list-group list-group-horizontal justify-content-center">
+                        <li class="list-group-item">
+                            <p class="fw-bold">Front</p>
+                            @Model.Front
+                        </li>
+                        <li class="list-group-item">
+                            <p class="fw-bold">Back</p>
+                            @Model.Back
+                        </li>
+                    </ul>
+                    <p class="text-danger">Are you sure you want to delete this card?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post" asp-controller="Card" asp-action="Delete" asp-route-cardId="@Model.CardId">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

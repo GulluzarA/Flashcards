@@ -1,0 +1,27 @@
+@model Deck
+
+@{
+    // Change color based on DeckId
+    var buttonClass = "btn p-0 card-shaped card-sized shadow-sm";
+    buttonClass += (Model.DeckId % 5) switch
+    {
+        1 => " btn-primary",
+        2 => " btn-success",
+        3 => " btn-danger",
+        4 => " btn-info",
+        _ => " btn-warning"
+        };
+
+    var cardCount = Model.Cards?.Count ?? 0;
+}
+
+<a asp-controller="Deck" asp-action="Details" asp-route-deckId="@Model.DeckId" class="@buttonClass">
+    <div class="card-body px-1 h-100 d-flex flex-column justify-content-between">
+        <h5 class="card-title">
+            @Model.Name
+        </h5>
+        <div class="card-text">
+            @cardCount @(cardCount == 1 ? "card" : "cards")
+        </div>
+    </div>
+</a>

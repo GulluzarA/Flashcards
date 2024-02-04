@@ -1,0 +1,8 @@
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-max-sm mt-4">
+    @RenderBody()
+    @await RenderSectionAsync("scripts", required: false)
+</div>

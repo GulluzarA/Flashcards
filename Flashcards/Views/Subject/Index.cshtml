@@ -1,0 +1,37 @@
+@model IEnumerable<Subject>
+
+@{
+    Layout = "_LayoutContainerNormal";
+}
+
+<div class="mb-3">
+    @* Title *@
+    <h1>
+        Your Subjects
+    </h1>
+    @* Description *@
+    <p class="readable">
+        On this page you can create and manage your personal subjects. Subjects are used to group decks together. You can create as many subjects as you want.
+    </p>
+    <a asp-action="Create" class="btn btn-primary text-nowrap">
+        Create new subject
+    </a>
+</div>
+
+@* Subjects *@
+@if (!Model.Any())
+{
+    <div class="d-inline-block alert alert-info">
+        <p>You don't have any subjects yet</p>
+    </div>
+}
+else
+{
+    <div class="d-flex flex-column align-items-start gap-4">
+        @foreach (var subject in Model)
+        {
+            <hr class="w-100"/>
+            <partial name="_SubjectComponent" model="subject"/>
+        }
+    </div>
+}

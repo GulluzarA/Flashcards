@@ -1,0 +1,63 @@
+@inject UserManager<IdentityUser> UserManager
+@using Microsoft.AspNetCore.Identity
+@model Subject
+
+@{
+    var deckCount = Model.Decks?.Count ?? 0;
+    var activeAction = ViewContext.RouteData.Values["Action"] as string;
+    var ownerName = UserManager.FindByIdAsync(Model.OwnerId).Result?.UserName;
+}
+
+<div id="@Model.SubjectId" class="card mb-3 border-0 d-inline-block" style="scroll-margin: 4rem">
+    <div class="card-body p-0">
+        @* Title row *@
+        <div class="d-flex flex-wrap-reverse">
+            <h2 class="card-title d-flex align-items-center">
+                @* Title *@
+                @Model.Name
+            </h2>
+            @* Actions *@
+            <partial name="_SubjectActions"/>
+        </div>
+
+        @* Owner name *@
+        <h6 class="card-subtitle mb-1 text-body-secondary">
+            Created by @(ownerName ?? "unknown user")
+        </h6>
+
+        @* Badges *@
+        <div class="mb-2">
+            <span class="badge text-bg-secondary">@deckCount @(deckCount == 1 ? "Deck" : "Decks")</span>
+            <span class="badge @(Model.Visibility == SubjectVisibility.Public ? "text-bg-danger" : "text-bg-info")">@Model.Visibility</span>
+            @if (activeAction == "Public")
+            {
+                <span class="badge text-bg-primary">@(UserManager.GetUserId(User) == Model.OwnerId ? "Your subject" : "")</span>
+            }
+        </div>
+        @* Description *@
+        <p class="card-text readable">@(Model.Description ?? "No description")</p>
+
+        @* Decks *@
+        <div class="d-flex gap-2 gap-md-3 flex-wrap">
+            @if (Model.Decks != null)
+            {
+                foreach (var deck in Model.Decks)
+                {
+                    <partial name="_Deck" model="deck"/>
+                }
+            }
+            @* New deck button *@
+            @if (UserManager.GetUserId(User) == Model.OwnerId)
+            {
+                <a asp-action="Create" asp-controller="Deck" asp-route-subjectId="@Model.SubjectId" class="card btn btn-outline-secondary p-0 card-shaped card-sized">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Create deck
+                        </h5>
+                    </div>
+                    <partial name="Icons/_PlusIcon"/>
+                </a>
+            }
+        </div>
+    </div>
+</div>
