@@ -1,6 +1,7 @@
 # ITPE3200 - Flashcards
 
 This projects is our first group project in the course ITPE3200 - Web Application Development at OsloMet.
+Documentation for the project can be read [`here`](https://github.com/GulluzarA/Flashcards/tree/main/Documentation).
 
 ## Table of contents
 * [Project description](#project-description)
